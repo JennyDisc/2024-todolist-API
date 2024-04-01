@@ -1,0 +1,13 @@
+// scss環境裡可以省略句尾.scss
+@import "bootstrap/scss/bootstrap";
+
+// base
+@import "./base/base";
+
+// breakpoint
+@import "./utils/mixins";
+
+// layout
+@import "./layout/index";
+@import "./layout/header";
+@import "./layout/content";

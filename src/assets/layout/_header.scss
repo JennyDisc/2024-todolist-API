@@ -1,0 +1,21 @@
+.header {
+    .keyin {
+        background: #d8e6e5;
+
+        input {
+            width: 280px;
+
+            @include sm {
+                width: 300px;
+            }
+
+            @include md {
+                width: 350px;
+            }
+
+            @include lg {
+                width: 375px;
+            }
+        }
+    }
+}
