@@ -16,8 +16,7 @@
           <p v-if="!isEditing(index)">{{ item.title }}</p>
           <input v-else type="text" name="edit" v-model="editTodoText.title" />
           <div>
-            <!-- 編輯 -->
-            <!-- <button
+            <button
               v-if="!isEditing(index)"
               type="button"
               class="btn btn-outline-success me-2"
@@ -29,10 +28,10 @@
               v-else
               type="button"
               class="btn btn-outline-success me-2"
-              @click="patchTodolist(item.id)"
+              @click="patchTodolist(item.id, index)"
             >
               完成
-            </button> -->
+            </button>
             <button
               type="button"
               class="btn btn-outline-danger"
@@ -48,7 +47,7 @@
 </template>
 
 <script>
-import { mapState,mapActions } from "pinia";
+import { mapState, mapActions } from "pinia";
 // 定義好的 store 賦值給變數 useTodolistStore
 // 在元件中引入並呼叫 useTodolistStore() 來訪問 store
 import { useTodolistStore } from "../components/TodoDataStore.js";
@@ -56,7 +55,7 @@ import { useTodolistStore } from "../components/TodoDataStore.js";
 export default {
   data() {
     return {
-      // apiUrl: "https://todolist-on5h.onrender.com/todos",
+      apiUrl: "https://todolist-on5h.onrender.com/todos",
       getTodoText: [],
       editTodoText: {
         title: "",
@@ -79,22 +78,19 @@ export default {
     isEditing(index) {
       return index === this.editIndex;
     },
-    // 編輯
-    // patchTodolist(id) {
-    //   console.log(id);
-    //   console.log(this.editTodoText);
-    //   axios
-    //     .patch(this.apiUrl + "/" + id, { title: this.editTodoText.title })
-    //     .then((res) => {
-    //       console.log(res);
-    //       this.getTodolist();
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
+    patchTodolist(id, index) {
+      if (this.editTodoText.title !== "") {
+        // axios.get()回傳前，畫面先顯示修改後的內容
+        this.getTodoText[index].title = this.editTodoText.title;
+        // 按鈕文字從完成變為預設的編輯
+        this.editIndex = -1;
+        useTodolistStore().patchTodolist(id, this.editTodoText.title);
+      } else {
+        alert("請輸入內容!");
+      }
+    },
     // 在 methods 引入 store 的 actions 底下的 getTodolist
-    ...mapActions(useTodolistStore, ['getTodolist'])
+    ...mapActions(useTodolistStore, ["getTodolist"]),
   },
   // 在 computed 引入 store 的 state 底下的 todoText
   computed: {

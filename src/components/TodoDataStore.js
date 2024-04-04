@@ -59,5 +59,16 @@ export const useTodolistStore = defineStore({
                     console.log(error);
                 });
         },
+        patchTodolist(id, editTodoText) {
+            axios
+                .patch(this.apiUrl + "/" + id, { title: editTodoText })
+                .then(() => {
+                    // console.log(res);
+                    this.getTodolist();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
     },
 })
